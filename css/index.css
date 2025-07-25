@@ -61,9 +61,9 @@ body{
 }
 
 .content-wrap{
-    width: 375px;
+    width: 100%;
+    max-width: 576px;
     overflow: hidden;
-    max-width: 100%;
 }
 
 .content-block{
@@ -688,8 +688,8 @@ nav{
     width: 100%;
     position: fixed;
     bottom: 10px;
-    width: 375px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 576px;
     z-index: 1000;
 }
 
@@ -750,6 +750,26 @@ nav{
     font-weight: 600;
     font-size: 16px;
     color: #fff;
+}
+
+#chart-container {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.custom-tooltip {
+  position: absolute;
+  background: #fff;
+  color: #000;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  pointer-events: none;
+  display: none;
 }
 
 
