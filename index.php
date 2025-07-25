@@ -270,7 +270,10 @@
                                 </div>
                             </div>
                             <div class="statistics-chart">
-                                <img src="./images/main-page/chart.webp" alt="chart" class="chart-img"/>
+                                 <div id="chart-container">
+                                    <canvas id="myChart"></canvas>
+                                    <div id="customTooltip" class="custom-tooltip">$20,000</div>
+                                  </div>
                             </div>
                         </div>
                     </div> 
@@ -307,4 +310,77 @@
     </section>
 </body>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>   
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(255,168,0,0.7)');
+    gradient.addColorStop(1, 'rgba(255,168,0,0)');
+
+    const data = {
+      labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'],
+      datasets: [{
+        label: 'Рост',
+        data: [3000, 8000, 6000,10000, 20000, 23000],
+        fill: true,
+        backgroundColor: gradient,
+        borderColor: '#FFA800',
+        tension: 0.4,
+        pointRadius: 7,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#FFA800',
+        pointBorderWidth: 2,
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: false,
+            external: function(context) {
+              const tooltipEl = document.getElementById('customTooltip');
+              const tooltipModel = context.tooltip;
+              if (tooltipModel.opacity === 0) {
+                tooltipEl.style.display = 'none';
+                return;
+              }
+              const point = context.chart.getDatasetMeta(0).data[4].getProps(['x', 'y'], true);
+              tooltipEl.style.display = 'block';
+              tooltipEl.style.left = point.x + 'px';
+              tooltipEl.style.top = point.y + 'px';
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            },
+            ticks: { color: '#000' }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            },
+            ticks: {
+              color: '#000',
+              callback: value => `$${value / 1000}k`
+            }
+          }
+        }
+      }
+    };
+
+    new Chart(ctx, config);
+  </script>
 </html>
